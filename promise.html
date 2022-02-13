@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+ 
+    <script>
+   // resolve == then  reject == catch  all race
+//    let promise = new Promise((resolve,reject)=>{
+//        resolve(222)
+//    })
+//    promise.then(res=>{
+//        console.log('成功')
+//        console.log('res',res)
+//    }).catch(err=>{
+//       console.log('失办')
+//       console.log('err',err)
+//    })
+    function promise1(status){
+        return new Promise((resolve,reject)=>{
+            if(status){
+                console.log('第一个promise成功')
+                resolve('第一个promise成功')
+            }
+            if(!status){
+                console.log('第一个promise失办')
+                reject('第一个promise失办')
+            }
+        })
+    }
+    function promise2(status){
+        return new Promise((resolve,reject)=>{
+            if(status){
+                console.log('第2个promise成功')
+                resolve('第2个promise成功')
+            }
+            if(!status){
+                console.log('第2个promise失办')
+                reject('第2个promise失办')
+            }
+        })
+    }
+    function promise3(status){
+        return new Promise((resolve,reject)=>{
+            if(status){
+                console.log('第3个promise成功')
+                resolve('第3个promise成功')
+            }
+            if(!status){
+                console.log('第2个promise失办')
+                reject('第3个promise失办')
+            }
+        })
+    }
+    function promise4(status){
+        return new Promise((resolve,reject)=>{
+            if(status){
+                console.log('第4个promise成功')
+                resolve('第4个promise成功')
+            }
+            if(!status){
+                console.log('第4个promise失办')
+                reject('第4个promise失办')
+            }
+        })
+    }
+    promise1(true).then(res=>{
+         console.log('res',res)
+         return promise2(true)
+    })
+    // .then(res=>{
+    //     console.log('res',res)
+    //     return promise3(true)
+    // })
+    .then(res=>{
+        console.log('res',res)
+        return promise4(true)
+    }).then(res=>{
+        console.log('res',res)
+    }).catch(err=>{
+
+    })
+   
+    // function fn1(){  console.log(1111)  }
+    // function fn2(){  fn1()  }    
+    // function fn3(){  fn2()  }
+    // function fn4(){  fn3()   }
+    // fn4()
+    // all 里面的promise 全部执行resolve 成功 执行 then  有一些不成功就执行catch 
+    Promise.all([promise1(true),promise2(false)]).then(res=>{
+        console.log('res444',res)
+    })
+    .catch(err=>{
+        console.log('err444',err)
+    })
+
+    // race里面的第一个promise 返回成功 就执行 then  第一个promise 返回失办 就执行 catch 
+    Promise.race([promise1(false),promise2(true),promise4(true),]).then(res=>{
+        console.log('res555',res)
+        console.log('成功')
+    })
+    .catch(err=>{
+        console.log('res555',err)
+        console.log('失办')
+    })
+  
+
+   </script>
+  </body>
+</html>
