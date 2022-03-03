@@ -1,6 +1,7 @@
 /*
 过滤特殊字符串
 */ 
+import { MessageBox } from 'element-ui';
 export function stripscript(str)
    {
     var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{ }【】‘；：”“'。，、？]")
@@ -42,3 +43,21 @@ export function stripscript(str)
         return false;
     }
   }
+
+// confirm 封装的第2种写法
+export function confirm(params){
+    MessageBox.confirm(params.content, params.tip || '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: params.type || 'warning',
+      center:true
+    }).then(() => {
+      params.fn && params.fn(params.id);
+      //if(params.fn) { params.fn() }
+    }).catch(() => {
+      // root.$message({
+      //   type: 'info',
+      //   message: '已取消删除'
+      // });          
+    });
+}

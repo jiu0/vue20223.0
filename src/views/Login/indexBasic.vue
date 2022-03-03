@@ -228,6 +228,10 @@ export default {
               loginBtnStatus.value = false;
               countDown(20);
           }).catch(err=>{
+              loginBtnStatus.value = false;
+              // 报错 把验证码按钮重置
+              codeBtnStatus.status = false;
+              codeBtnStatus.text = '验证码'
               console.log('err',err)
           })
          //},3000)

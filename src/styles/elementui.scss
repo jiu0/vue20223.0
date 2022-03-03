@@ -1,0 +1,85 @@
+.el-menu-item{
+    font-size:14px;
+    padding-left:50px!important;
+    &.is-active{
+      background-color: rgba(245,108,108,.2) !important;
+    }
+}
+
+// 修改一级菜单样式
+.el-submenu{
+   &.is-active.is-opened .el-submenu__title{  background-color:$mainColor !important;}
+}
+
+.close{
+   .el-submenu{
+      &.is-opened{
+        >.el-submenu__title{
+           background-color:$mainColor!important;
+        }
+      }
+   }
+}
+
+.el-menu--vertical{
+  .el-menu{
+    background-color: rgba(0,0,0,.5)!important;
+  }
+  .el-menu-item{line-height: 56px;}
+  .el-menu-item:hover{
+    background-color: $mainColor!important;
+  }
+}
+
+//table 样式修改
+div.el-table{
+    td,th {
+      text-align: center!important;
+    } 
+    th{
+      font-weight: bold;
+      color:#344a5f;
+    } 
+    td{
+      font-size:13px;
+    }
+}
+
+// dialog样式
+.el-dialog__body{
+   padding:30px 47px !important;
+}
+.el-dialog__footer{
+  text-align:center!important;
+}
+
+// form样式
+.el-form{
+   .el-form-item:last-child{
+      margin-bottom:0 !important;
+   }
+}
+
+// 搜索框 日期样式
+
+.el-input__inner{height:30px!important;}
+
+.el-input__icon{line-height:22px!important;}
+
+.el-date-editor .el-range-separator{line-height:25px!important;}
+
+// 缩虐图
+.el-upload.el-upload--text{
+  border: 1px solid #ccc!important;
+}
+
+
+
+// 弹框的 楼层
+.v-modal{ opacity:0.1;z-index:1!important;}
+.el-dialog__wrapper{background-color: rgba(0,0,0,.1);z-index:1!important;}
+.el-dialog{z-index:100!important}
+
+
+
+

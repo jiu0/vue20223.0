@@ -16,7 +16,24 @@ export function GetCode (data) {
     });
   }
 
+// 获取系统角色
+export function GetSystemRole (data={}) {
+  return service.request({
+    method: 'post',
+    url: '/systemRole',
+    data: data
+  });
+}
+
 // 获取用户角色
+export function GetUserRole (data={}) {
+  return service.request({
+    method: 'post',
+    url: '/userRole',
+    data: data
+  });
+}
+
 
 // 登录
 export function Login (data) {
@@ -26,6 +43,16 @@ export function Login (data) {
       data: data
     });
   }
+
+
+// 退出登录
+export function Logout (data={}) {
+  return service.request({
+    method: 'post',
+    url: '/logout',
+    data: data
+  });
+}
 
 
 //注册

@@ -47,7 +47,7 @@
 <script>
 import { Login, GetCode, Register } from '@/api/login.js';
 import sha1 from 'js-sha1';
-import { reactive, ref } from '@vue/composition-api';
+import { onUnmounted, reactive, ref } from '@vue/composition-api';
 //import { stripscript, checkEmail } from '@/utils/validate.js';
 import { stripscript,validateEmail,validatePass,validateVCode } from '@/utils/validate.js'
 export default {
@@ -113,8 +113,8 @@ export default {
     };
 
     const ruleForm = reactive({
-      username: '',
-      password: '',
+      username: '1250837819@qq.com',
+      password: 'pensgc79',
       repassword: '',
       code: '',
     });
@@ -187,8 +187,7 @@ export default {
             code: ruleForm.code
           };
           if (formType.value == 'login') {
-            Login(requestData).then(response => {
-              console.log('requestData',requestData)
+              root.$store.dispatch('app/login',requestData).then(response => {
               let data = response.data;
               root.$notify({
                 title: '结果',
@@ -200,12 +199,31 @@ export default {
               updateBtnStatus(false, '验证码');
               refs['loginForm'].resetFields();
               root.$router.push({
-                name: 'Home'
+                name: 'Console'
               })
             }).catch(error => {
               submitStatus.value = false;
               console.log(error);
-            });
+            })
+            // Login(requestData).then(response => {
+            //   console.log('requestData',requestData)
+            //   let data = response.data;
+            //   root.$notify({
+            //     title: '结果',
+            //     message: data.message,
+            //     type: 'success',
+            //     duration: 3000
+            //   });
+            //   clearInterval(timer.value);
+            //   updateBtnStatus(false, '验证码');
+            //   refs['loginForm'].resetFields();
+            //   root.$router.push({
+            //     name: 'Console'
+            //   })
+            // }).catch(error => {
+            //   submitStatus.value = false;
+            //   console.log(error);
+            // });
           } else if (formType.value == 'register') {
             Register(requestData).then(response => {
               let data = response.data;
@@ -299,7 +317,10 @@ export default {
         }
       }, 1000);
     });
-
+    // 页面销毁时 
+    onUnmounted(()=>{
+        clearInterval(timer.value);
+    })
     return {
       menuTab,
       ruleForm,

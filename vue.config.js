@@ -11,7 +11,7 @@ module.exports = {
   // https://www.foobar.com/my-app/
   // 那么将这个值改为 `/my-app/`
   // 基本路径  设置的是 BASE_URL 的值
-  publicPath: process.env.NODE_ENV === 'production' ? '' : '/',　　/*publicPath 作用就是本地打开项目 url 后面拼接的域名*/
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '',　　/*publicPath 作用就是本地打开项目 url 后面拼接的域名*/
 
   // 将构建好的文件输出到哪里（或者说将编译的文件）  输出文件目录
   outputDir: process.env.NODE_ENV === 'production' ? 'dist': 'devdist',
@@ -41,7 +41,7 @@ module.exports = {
   // 是否在保存的时候使用 `eslint-loader` 进行检查。
   // 有效的值：`ture` | `false` | `"error"`
   // 当设置为 `"error"` 时，检查出的错误会触发编译失败。
-  lintOnSave: true,
+  lintOnSave: false,
 
   // 使用带有浏览器内编译器的完整构建版本
   // 查阅 https://cn.vuejs.org/v2/guide/installation.html#运行时-编译器-vs-只包含运行时
@@ -56,7 +56,17 @@ module.exports = {
 
   // 调整内部的 webpack 配置。
   // 查阅 https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli/webpack.md
-  chainWebpack: () => {},
+  chainWebpack: (config) => {
+    const svgRule = config.module.rule("svg");
+        svgRule.uses.clear();
+        svgRule
+        .use("svg-sprite-loader")
+        .loader("svg-sprite-loader")
+        .options({ 
+            symbolId: "icon-[name]",
+            include: ["./src/iconfont"] 
+        });
+  },
  // configureWebpack: (config) => {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
@@ -80,6 +90,7 @@ module.exports = {
   //name: name,
   resolve: {
     alias: {
+      'vue$': 'vue/dist/vue.js', // 改变main.js 引入vue 的指向    vue$ 这里要起个别名 不能用vue 
       '@': resolve('src'),
       '@modules': resolve('src/modules'),
       '@assets': resolve('src/assets'),
@@ -140,14 +151,19 @@ module.exports = {
   //      }
   //  }, // 代理转发配置，用于调试环境,
    proxy: {
-    '/devApi': {
-        target: "https://www.rufeike.top",
+     //'/devApi':{   // devApi 接在 localhost 的后面
+    // [process.env.VUE_APP_ABC]：{
+      '':{ 
+        target: "https://www.rufeike.top",   // 访问 localhost:8080 就等于访问 https://www.rufeike.top
         changeOrigin: true, // 允许websockets跨域
         // ws: true,
         pathRewrite: {
-            '^/devApi': ''
+            //'^/devApi': ''
+           // ['^'+ process.env.VUE_APP_ABC]:''   es5 
+           // [`^${process.env.VUE_APP_ABC}`]:''  es6 
+            '^':''
         }
-     }
+     },
    },
    before: app => {}
    },
